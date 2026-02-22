@@ -128,10 +128,10 @@
       },
     });
 
-    setButtonLoading(sendMagicLinkBtn, false, 'Send Magic Link');
+    setButtonLoading(sendMagicLinkBtn, false, 'Send Link');
 
     if (error) {
-      setStatus(error.message || 'Failed to send magic link. Try again.');
+      setStatus(error.message || 'Failed to send link. Try again.');
     } else {
       setStatus(`Check your inbox at ${email} — click the link to join the waitlist.`);
       if (sendMagicLinkBtn) {
