@@ -1,6 +1,5 @@
 // api/waitlist/count.js
-// Returns the total number of confirmed waitlist entries.
-// Uses the service key so RLS doesn't block the count.
+// Returns the total number of entries in the waitlist table.
 
 import { createClient } from '@supabase/supabase-js';
 
@@ -18,8 +17,9 @@ export default async function handler(req, res) {
 
     try {
         const supabase = createClient(supabaseUrl, supabaseServiceKey);
+        // Note: Counting the new 'waitlist' table
         const { count, error } = await supabase
-            .from('waitlist_users')
+            .from('waitlist')
             .select('*', { count: 'exact', head: true });
 
         if (error) throw error;

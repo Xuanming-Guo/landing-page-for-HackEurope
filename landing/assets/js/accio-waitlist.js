@@ -1,13 +1,6 @@
 /**
- * Accio Waitlist – Supabase Magic Link Auth
- *
- * Flow:
- *  1. On page load, fetch /api/public-config to get Supabase credentials.
- *  2. Init Supabase JS client (loaded via CDN in index.html).
- *  3. Check if this is a magic-link callback (URL contains #access_token or ?type=magiclink).
- *  4. If session exists → upsert user into waitlist_users → show confirmed state.
- *  5. If no session → show email input form.
- *  6. Poll /api/waitlist/count every 2 minutes to keep counter fresh.
+ * Accio Waitlist – Simplified Direct-to-DB Flow
+ * (No email verification to bypass rate limits)
  */
 
 (function () {
@@ -16,14 +9,15 @@
   let waitlistStatusEl;
   let emailFormEl;
   let emailInputEl;
-  let sendMagicLinkBtn;
+  let joinBtn;
   let confirmedCardEl;
   let confirmedEmailEl;
-  let switchEmailBtn;
+  let resetBtn;
 
   /* ── State ─────────────────────────────────────────────────── */
   let supabase = null;
   let pollTimer = null;
+  const STORAGE_KEY = 'accio_waitlist_joined_email';
 
   const numberFormat = new Intl.NumberFormat('en-US');
 
@@ -39,20 +33,20 @@
   }
 
   function showEmailForm() {
-    if (emailFormEl) emailFormEl.style.display = '';
+    if (emailFormEl) emailFormEl.style.display = 'flex';
     if (confirmedCardEl) confirmedCardEl.style.display = 'none';
   }
 
   function showConfirmedCard(email) {
     if (emailFormEl) emailFormEl.style.display = 'none';
-    if (confirmedCardEl) confirmedCardEl.style.display = '';
+    if (confirmedCardEl) confirmedCardEl.style.display = 'flex';
     if (confirmedEmailEl) confirmedEmailEl.textContent = email || '';
   }
 
   function setButtonLoading(btn, isLoading, label) {
     if (!btn) return;
     btn.disabled = isLoading;
-    btn.textContent = isLoading ? 'Sending…' : label;
+    btn.textContent = isLoading ? 'Joining...' : label;
   }
 
   /* ── Count polling ──────────────────────────────────────────── */
@@ -73,43 +67,8 @@
     }
   }
 
-  /* ── Supabase waitlist upsert ───────────────────────────────── */
-  async function upsertWaitlistUser(session) {
-    if (!supabase || !session) return;
-
-    const user = session.user;
-    const { error } = await supabase
-      .from('waitlist_users')
-      .upsert(
-        {
-          user_id: user.id,
-          email: user.email,
-          joined_at: new Date().toISOString(),
-        },
-        { onConflict: 'user_id', ignoreDuplicates: true }
-      );
-
-    if (error) {
-      console.error('[accio] upsert error:', error.message);
-    }
-
-    // Refresh count after joining
-    await refreshCount();
-  }
-
-  /* ── Handle active session (magic link callback or existing) ── */
-  async function handleSession(session) {
-    if (!session) return false;
-
-    showConfirmedCard(session.user?.email);
-    setStatus("You're on the waitlist! We'll be in touch.");
-
-    await upsertWaitlistUser(session);
-    return true;
-  }
-
-  /* ── Magic link send ────────────────────────────────────────── */
-  async function sendMagicLink() {
+  /* ── Direct Join Logic ──────────────────────────────────────── */
+  async function joinWaitlist() {
     const email = emailInputEl ? emailInputEl.value.trim().toLowerCase() : '';
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -117,27 +76,35 @@
       return;
     }
 
-    setButtonLoading(sendMagicLinkBtn, true, 'Send Magic Link');
-    setStatus('Sending your sign-in link…');
+    setButtonLoading(joinBtn, true, 'Join Waitlist');
+    setStatus('Joining waitlist...');
 
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        // After clicking the link Supabase redirects back here
-        emailRedirectTo: window.location.href.split('#')[0],
-      },
-    });
+    // Direct insert into public 'waitlist' table
+    // We use the supabase client initialized with the anon key
+    const { error } = await supabase
+      .from('waitlist')
+      .insert({ email: email });
 
-    setButtonLoading(sendMagicLinkBtn, false, 'Send Link');
+    setButtonLoading(joinBtn, false, 'Join Waitlist');
 
     if (error) {
-      setStatus(error.message || 'Failed to send link. Try again.');
-    } else {
-      setStatus(`Check your inbox at ${email} — click the link to join the waitlist.`);
-      if (sendMagicLinkBtn) {
-        sendMagicLinkBtn.textContent = 'Resend Link';
+      // If it's a unique constraint error (user already joined), we show success anyway
+      if (error.code === '23505') {
+        onJoinedSuccess(email, "You're already on the list!");
+      } else {
+        console.error('[accio] join error:', error.message);
+        setStatus('Failed to join. Please try again later.');
       }
+    } else {
+      onJoinedSuccess(email, "You're in! Welcome to the waitlist.");
     }
+  }
+
+  function onJoinedSuccess(email, message) {
+    localStorage.setItem(STORAGE_KEY, email);
+    showConfirmedCard(email);
+    setStatus(message);
+    refreshCount();
   }
 
   /* ── Init ───────────────────────────────────────────────────── */
@@ -146,82 +113,74 @@
     waitlistStatusEl = document.getElementById('waitlistStatus');
     emailFormEl = document.getElementById('waitlistEmailForm');
     emailInputEl = document.getElementById('waitlistEmailInput');
-    sendMagicLinkBtn = document.getElementById('waitlistSendBtn');
+    joinBtn = document.getElementById('waitlistSendBtn'); // Re-using ID for simplicity
     confirmedCardEl = document.getElementById('waitlistConfirmedCard');
     confirmedEmailEl = document.getElementById('waitlistConfirmedEmail');
-    switchEmailBtn = document.getElementById('waitlistSwitchEmailBtn');
+    resetBtn = document.getElementById('waitlistSwitchEmailBtn'); // Re-using ID
 
-    // Abort if the waitlist section isn't on this page
     if (!waitlistCountEl && !emailFormEl) return;
 
-    setStatus('Loading…');
+    setStatus('Loading counter...');
     startPolling();
 
-    // ── Fetch public config from server ──
+    // ── Fetch public config ──
     let config;
     try {
       const res = await fetch('/api/public-config');
       config = await res.json();
     } catch (_) {
-      setStatus('Could not reach the server. Please refresh.');
+      setStatus('Could not reach the server.');
       showEmailForm();
       return;
     }
 
     if (!config.supabaseConfigured) {
-      setStatus('Waitlist live. Auth coming soon.');
+      setStatus('System initializing. Ready soon.');
       showEmailForm();
       return;
     }
 
-    // ── Init Supabase client (from CDN: window.supabase) ──
+    // ── Init Supabase ──
     if (!window.supabase || !window.supabase.createClient) {
-      setStatus('Auth library failed to load. Refresh and try again.');
+      setStatus('Error loading libraries. Please refresh.');
       showEmailForm();
       return;
     }
 
     supabase = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey);
 
-    // ── Wire up UI events ──
-    if (sendMagicLinkBtn) {
-      sendMagicLinkBtn.addEventListener('click', sendMagicLink);
+    // ── Set UI label to "Join Waitlist" ──
+    if (joinBtn) joinBtn.textContent = 'Join Waitlist';
+
+    // ── Wire events ──
+    if (joinBtn) {
+      joinBtn.addEventListener('click', joinWaitlist);
     }
 
     if (emailInputEl) {
       emailInputEl.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') { e.preventDefault(); sendMagicLink(); }
+        if (e.key === 'Enter') { e.preventDefault(); joinWaitlist(); }
       });
     }
 
-    if (switchEmailBtn) {
-      switchEmailBtn.addEventListener('click', async () => {
-        await supabase.auth.signOut();
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        localStorage.removeItem(STORAGE_KEY);
         showEmailForm();
         if (emailInputEl) emailInputEl.value = '';
-        setStatus('Sign in with a different email.');
+        setStatus('Enter your email to join the waitlist.');
       });
     }
 
-    // ── Check for existing or incoming session ──
-    setStatus('Checking session…');
-
-    // getSession() also handles the magic-link hash exchange automatically
-    const { data: { session } } = await supabase.auth.getSession();
-
-    if (session) {
-      await handleSession(session);
+    // ── Check if already joined (LocalStorage) ──
+    const cachedEmail = localStorage.getItem(STORAGE_KEY);
+    if (cachedEmail) {
+      showConfirmedCard(cachedEmail);
+      setStatus("You're on the waitlist! We'll be in touch.");
     } else {
       showEmailForm();
       setStatus('Enter your email to join the waitlist.');
     }
-
-    // Listen for auth state changes (e.g. magic link completes in same tab)
-    supabase.auth.onAuthStateChange(async (_event, session) => {
-      if (session) {
-        await handleSession(session);
-      }
-    });
   }
 
   if (document.readyState === 'loading') {
