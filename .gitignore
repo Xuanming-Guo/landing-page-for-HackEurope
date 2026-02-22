@@ -1,0 +1,18 @@
+# Environment secrets
+.env.local
+.env.*.local
+
+# Vercel
+.vercel
+
+# Node
+node_modules/
+npm-debug.log*
+
+# macOS
+.DS_Store
+__MACOSX/
+
+# Editor
+.vscode/
+*.swp

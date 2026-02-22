@@ -1,0 +1,12 @@
+{
+    "name": "accio-landing",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Accio – Adaptive Lecture Companion landing page",
+    "dependencies": {
+        "@supabase/supabase-js": "^2.47.0"
+    },
+    "engines": {
+        "node": ">=20.x"
+    }
+}

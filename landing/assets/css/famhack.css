@@ -1,0 +1,1091 @@
+/* FamHack Custom Styles */
+/* Preserves template color scheme: Red (#fc2f20) / Cream (#ffe9ce) */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap');
+
+/* Bracket tuning */
+:root {
+  --famhack-bracket-offset: 8px;
+}
+
+
+
+
+
+
+/* Navigation Logo */
+.nav-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-logo-text {
+  font-family: 'Cinzel Decorative', 'Times New Roman', serif;
+  font-size: 26px;
+  line-height: 1;
+  color: #fc2f20;
+  letter-spacing: 0.04em;
+}
+
+/* Flyout Menu (GSAP-enhanced animation) */
+.flyout-menu {
+  opacity: 0;
+  transform: translateX(100%);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.flyout-menu.is-open {
+  display: grid;
+  pointer-events: auto;
+}
+
+/* Fallback for no-JS or no-GSAP */
+.flyout-menu.is-open:not([style*="transform"]) {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
+/* Hero Section */
+.famhack-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 40px 80px;
+  background-color: #0d0d0d;
+}
+
+.famhack-hero-inner {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.famhack-hero-content {
+  position: relative;
+  padding: 60px;
+  text-align: center;
+}
+
+.famhack-hero-logo-wrapper {
+  margin-bottom: 30px;
+}
+
+.famhack-hero-logo {
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+}
+
+.famhack-hero-title {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 4rem;
+  font-weight: 600;
+  color: #ffe9ce;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.famhack-hero-tagline {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 1.25rem;
+  color: #fc2f20;
+  margin: 0 0 40px;
+  letter-spacing: 0.05em;
+}
+
+.famhack-hero-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.famhack-detail-item {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: baseline;
+}
+
+.famhack-detail-label {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.875rem;
+  color: #ffe9ce;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  min-width: 100px;
+  text-align: right;
+}
+
+.famhack-detail-value {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 1.125rem;
+  color: #ffe9ce;
+  min-width: 200px;
+  text-align: left;
+}
+
+.famhack-hero-cta {
+  display: flex;
+  justify-content: center;
+}
+
+/* About Preview Section */
+.famhack-about-preview {
+  padding: 100px 40px;
+  background-color: #ffe9ce;
+}
+
+.famhack-about-preview-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  padding: 60px;
+}
+
+/* Decorative Brackets */
+.famhack-hero-content,
+.famhack-about-preview-inner,
+.accio-waitlist-inner,
+.register-content,
+.about-content,
+.contact-content,
+.dashboard-header,
+.members-section {
+  position: relative;
+}
+
+.famhack-hero-content,
+.accio-waitlist-inner,
+.register-content,
+.about-content,
+.contact-content,
+.dashboard-header,
+.members-section {
+  color: #ffe9ce;
+}
+
+.famhack-about-preview-inner {
+  color: #0d0d0d;
+}
+
+.famhack-hero-content .bracket,
+.famhack-about-preview-inner .bracket,
+.accio-waitlist-inner .bracket,
+.register-content .bracket,
+.about-content .bracket,
+.contact-content .bracket,
+.dashboard-header .bracket,
+.members-section .bracket {
+  position: absolute;
+  top: var(--famhack-bracket-offset);
+  left: var(--famhack-bracket-offset);
+  pointer-events: none;
+}
+
+.famhack-hero-content .bracket[data-wf--bracket--variant="bottom-right"],
+.famhack-about-preview-inner .bracket[data-wf--bracket--variant="bottom-right"],
+.accio-waitlist-inner .bracket[data-wf--bracket--variant="bottom-right"],
+.register-content .bracket[data-wf--bracket--variant="bottom-right"],
+.about-content .bracket[data-wf--bracket--variant="bottom-right"],
+.contact-content .bracket[data-wf--bracket--variant="bottom-right"],
+.members-section .bracket[data-wf--bracket--variant="bottom-right"] {
+  top: auto;
+  left: auto;
+  right: var(--famhack-bracket-offset);
+  bottom: var(--famhack-bracket-offset);
+}
+
+.dashboard-header {
+  padding: 24px 0 0 24px;
+  --famhack-bracket-offset: 0px;
+}
+
+.members-section {
+  --famhack-bracket-offset: 24px;
+}
+
+.famhack-section-heading {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #0d0d0d;
+  margin: 0 0 30px;
+}
+
+.famhack-section-text {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #0d0d0d;
+  margin: 0 0 30px;
+}
+
+.famhack-about-cta {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Revamped Footer Styles */
+.footer-new {
+  background-color: #0d0d0d;
+  color: #ffe9ce;
+  padding: 120px 40px 60px;
+  border-top: 1px solid rgba(252, 47, 32, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  margin-bottom: 80px;
+}
+
+.footer-logo {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(3rem, 15vw, 10rem);
+  font-weight: 700;
+  color: #fc2f20;
+  line-height: 0.8;
+  margin: 0;
+  letter-spacing: -0.05em;
+  opacity: 0.9;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 80px;
+}
+
+.footer-col h6 {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255, 233, 206, 0.5);
+  margin-bottom: 24px;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-col a {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 1rem;
+  color: #ffe9ce;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+  display: inline-block;
+  width: fit-content;
+}
+
+.footer-col a:hover {
+  color: #fc2f20;
+  transform: translateX(5px);
+}
+
+.footer-bottom {
+  padding-top: 40px;
+  border-top: 1px solid rgba(255, 233, 206, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-bottom p {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.85rem;
+  color: rgba(255, 233, 206, 0.6);
+  margin: 0;
+}
+
+@media screen and (max-width: 991px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .footer-new {
+    padding: 80px 24px 40px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-logo {
+    font-size: 4rem;
+  }
+}
+
+
+/* Registration Page Styles */
+.register-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 40px 80px;
+  background-color: #0d0d0d;
+}
+
+.register-inner {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.register-content {
+  position: relative;
+  padding: 60px;
+}
+
+.register-heading {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffe9ce;
+  margin: 0 0 10px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.register-subheading {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.875rem;
+  color: #ffe9ce;
+  opacity: 0.6;
+  margin: 0 0 40px;
+  text-align: center;
+}
+
+/* Registration Steps */
+.register-step {
+  display: none;
+}
+
+.register-step.active {
+  display: block;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.75rem;
+  color: #ffe9ce;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.form-input {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 1rem;
+  padding: 15px 20px;
+  background-color: transparent;
+  border: 1px solid rgba(255, 233, 206, 0.3);
+  color: #ffe9ce;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+  border-color: #fc2f20;
+}
+
+.form-input::placeholder {
+  color: rgba(255, 233, 206, 0.4);
+}
+
+.error-message {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.75rem;
+  color: #fc2f20;
+  margin: 0;
+  min-height: 1.5em;
+}
+
+.success-message {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.875rem;
+  color: #4CAF50;
+  margin: 0;
+  text-align: center;
+}
+
+/* OTP Input Styles */
+.otp-inputs {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.otp-digit {
+  width: 50px;
+  height: 60px;
+  font-family: 'Azeret Mono', monospace;
+  font-size: 1.5rem;
+  text-align: center;
+  background-color: transparent;
+  border: 1px solid rgba(255, 233, 206, 0.3);
+  color: #ffe9ce;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.otp-digit:focus {
+  border-color: #fc2f20;
+}
+
+.resend-link {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.75rem;
+  color: #fc2f20;
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: center;
+  display: block;
+  margin: 20px auto 0;
+}
+
+.resend-link:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Dashboard Styles */
+.dashboard-section {
+  min-height: 100vh;
+  padding: 120px 40px 80px;
+  background-color: #0d0d0d;
+}
+
+.dashboard-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  margin-bottom: 40px;
+}
+
+.dashboard-heading {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffe9ce;
+  margin: 0 0 10px;
+}
+
+.dashboard-subheading {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.875rem;
+  color: #ffe9ce;
+  opacity: 0.6;
+  margin: 0;
+}
+
+/* Invite Link Section */
+.invite-section {
+  background-color: rgba(255, 233, 206, 0.05);
+  padding: 30px;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.invite-label {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.75rem;
+  color: #ffe9ce;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 15px;
+}
+
+.invite-link-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.invite-link-input {
+  flex: 1;
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.875rem;
+  padding: 15px 20px;
+  background-color: transparent;
+  border: 1px solid rgba(255, 233, 206, 0.3);
+  color: #ffe9ce;
+  outline: none;
+}
+
+.copy-btn {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.75rem;
+  padding: 15px 25px;
+  background-color: #fc2f20;
+  border: none;
+  color: #ffe9ce;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: background-color 0.3s ease;
+}
+
+.copy-btn:hover {
+  background-color: #e02a1c;
+}
+
+.copy-btn.copied {
+  background-color: #4CAF50;
+}
+
+/* Team Members Section */
+.members-section {
+  position: relative;
+  padding: 40px;
+}
+
+.members-heading {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #ffe9ce;
+  margin: 0 0 20px;
+}
+
+.members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.member-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: rgba(255, 233, 206, 0.05);
+  border: 1px solid rgba(255, 233, 206, 0.1);
+}
+
+.member-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.member-email {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.875rem;
+  color: #ffe9ce;
+  margin: 0;
+}
+
+.member-role {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.75rem;
+  color: #ffe9ce;
+  opacity: 0.5;
+  margin: 0;
+}
+
+.member-status {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.625rem;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.member-status.leader {
+  background-color: #fc2f20;
+  color: #ffe9ce;
+}
+
+.member-status.member {
+  background-color: rgba(255, 233, 206, 0.2);
+  color: #ffe9ce;
+}
+
+/* Join Page Styles */
+.join-heading {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffe9ce;
+  margin: 0 0 10px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.join-team-name {
+  color: #fc2f20;
+}
+
+/* Contact Page Styles */
+.contact-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 40px 80px;
+  background-color: #0d0d0d;
+}
+
+.contact-inner {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.contact-content {
+  position: relative;
+  padding: 60px;
+}
+
+.contact-heading {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffe9ce;
+  margin: 0 0 30px;
+  text-align: center;
+}
+
+.contact-text {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #ffe9ce;
+  margin: 0 0 30px;
+  text-align: center;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.contact-item {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.875rem;
+  color: #ffe9ce;
+  text-align: center;
+}
+
+.contact-item a {
+  color: #fc2f20;
+  text-decoration: none;
+}
+
+.contact-item a:hover {
+  text-decoration: underline;
+}
+
+/* Button reset for <button> elements using button-link */
+button.button-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+}
+
+button.button-link:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+
+/* About Page Styles */
+.about-section {
+  padding: 120px 40px 80px;
+  background-color: #0d0d0d;
+}
+
+.about-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about-content {
+  position: relative;
+  padding: 60px;
+}
+
+.about-heading {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #ffe9ce;
+  margin: 0 0 30px;
+}
+
+.about-text {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #ffe9ce;
+  margin: 0 0 20px;
+}
+
+.about-highlight {
+  background-color: rgba(255, 233, 206, 0.05);
+  padding: 40px;
+  margin: 40px 0;
+}
+
+.about-highlight-heading {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #fc2f20;
+  margin: 0 0 15px;
+}
+
+.about-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.about-list li {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.875rem;
+  color: #ffe9ce;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 233, 206, 0.1);
+}
+
+.about-list li:last-child {
+  border-bottom: none;
+}
+
+/* Loading States */
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 50%;
+  margin-top: -8px;
+  margin-left: -8px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Accio Waitlist Section */
+.accio-waitlist {
+  padding: 100px 40px;
+  background-color: #0d0d0d;
+}
+
+.accio-waitlist-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 56px;
+  position: relative;
+  background: rgba(255, 233, 206, 0.03);
+  border: 1px solid rgba(255, 233, 206, 0.2);
+}
+
+.accio-waitlist-inner .famhack-section-heading {
+  color: #ffe9ce;
+  margin-bottom: 20px;
+}
+
+.accio-waitlist-inner .famhack-section-text {
+  color: #ffe9ce;
+  margin-bottom: 26px;
+}
+
+.accio-counter-shell {
+  border: 1px solid rgba(252, 47, 32, 0.35);
+  background: rgba(252, 47, 32, 0.1);
+  padding: 18px 20px;
+  margin-bottom: 22px;
+}
+
+.accio-counter-label {
+  margin: 0;
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.84rem;
+  color: #ffe9ce;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.accio-counter-value {
+  margin: 8px 0 0;
+  font-family: 'Azeret Mono', monospace;
+  font-size: 2.2rem;
+  color: #fc2f20;
+  line-height: 1;
+}
+
+.accio-google-slot {
+  min-height: 44px;
+  margin-bottom: 16px;
+}
+
+.accio-user-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid rgba(255, 233, 206, 0.25);
+  background: rgba(255, 233, 206, 0.04);
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.accio-user-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 233, 206, 0.5);
+}
+
+.accio-user-meta {
+  min-width: 0;
+}
+
+.accio-user-name,
+.accio-user-email {
+  margin: 0;
+  font-family: 'Azeret Mono', monospace;
+  color: #ffe9ce;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.accio-user-name {
+  font-size: 0.96rem;
+}
+
+.accio-user-email {
+  font-size: 0.82rem;
+  opacity: 0.8;
+}
+
+.accio-small-btn,
+.accio-join-btn {
+  font-family: 'Azeret Mono', monospace;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.accio-small-btn {
+  background: transparent;
+  color: #ffe9ce;
+  border-color: rgba(255, 233, 206, 0.4);
+  padding: 8px 12px;
+}
+
+.accio-join-btn {
+  width: 100%;
+  background: #fc2f20;
+  color: #ffe9ce;
+  padding: 14px 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.84rem;
+}
+
+.accio-join-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.accio-status {
+  margin: 14px 0 0;
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.86rem;
+  color: #ffe9ce;
+  min-height: 1.4em;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 991px) {
+  .famhack-hero-title {
+    font-size: 3rem;
+  }
+
+  .famhack-hero-content {
+    padding: 40px 30px;
+  }
+
+  .famhack-detail-item {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .famhack-detail-label,
+  .famhack-detail-value {
+    text-align: center;
+    min-width: auto;
+  }
+
+  .footer-header,
+  .footer-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-actions {
+    justify-content: flex-start;
+  }
+
+  .footer-right {
+    text-align: left;
+  }
+
+  .accio-waitlist {
+    padding: 80px 26px;
+  }
+
+  .accio-waitlist-inner {
+    padding: 40px 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  :root {
+    --famhack-bracket-offset: 6px;
+  }
+
+  .famhack-hero {
+    padding: 100px 20px 60px;
+  }
+
+  .famhack-hero-title {
+    font-size: 2.5rem;
+  }
+
+  .famhack-hero-logo {
+    max-width: 200px;
+  }
+
+  .famhack-section-heading {
+    font-size: 2rem;
+  }
+
+  .famhack-about-preview-inner {
+    padding: 40px 20px;
+  }
+
+  .accio-waitlist-inner {
+    padding: 34px 20px;
+  }
+
+  .register-content,
+  .contact-content,
+  .about-content {
+    padding: 40px 20px;
+  }
+
+  .otp-digit {
+    width: 40px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+
+  .invite-link-wrapper {
+    flex-direction: column;
+  }
+
+  .dashboard-inner {
+    padding: 0 20px;
+  }
+
+  .nav-logo {
+    padding: 0;
+  }
+
+  .nav-logo-text {
+    font-size: 22px;
+  }
+
+  .accio-user-card {
+    grid-template-columns: auto 1fr;
+  }
+
+  .accio-small-btn {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .famhack-hero-title {
+    font-size: 2rem;
+  }
+
+  .famhack-hero-tagline {
+    font-size: 1rem;
+  }
+
+  .otp-inputs {
+    gap: 5px;
+  }
+
+  .otp-digit {
+    width: 35px;
+    height: 45px;
+    font-size: 1rem;
+  }
+}

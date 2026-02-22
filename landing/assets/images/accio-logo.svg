@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Accio Logo</title>
+  <desc id="desc">Stylized letter A inside a circular badge.</desc>
+  <defs>
+    <linearGradient id="badge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe9ce"/>
+      <stop offset="100%" stop-color="#ffd8a8"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="104" fill="#0d0d0d"/>
+  <circle cx="256" cy="256" r="170" fill="url(#badge)"/>
+  <path d="M256 140L358 368H316L292 310H220L196 368H154L256 140Z" fill="#fc2f20"/>
+  <rect x="230" y="264" width="52" height="30" fill="#0d0d0d"/>
+</svg>
