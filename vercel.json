@@ -1,11 +1,6 @@
 {
   "version": 2,
   "outputDirectory": "landing",
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "nodejs20.x"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
